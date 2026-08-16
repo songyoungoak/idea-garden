@@ -9,6 +9,7 @@
   --bg:#f7f8f6; --panel:#ffffff; --ink:#1a1d1a; --muted:#636b63; --faint:#8b948b;
   --line:#e2e6e0; --accent:#2da44e; --accent-soft:#e8f5ec;
   --seed:#7a8f6b; --seed-bg:#eef3e8;
+  --sprout:#5c9e6f; --sprout-bg:#e9f4ec;
   --grown:#2da44e; --grown-bg:#e6f5eb;
   --trans:#0969da; --trans-bg:#e6effb;
   --dormant:#8b7355; --dormant-bg:#f3eee7;
@@ -20,6 +21,7 @@
     --bg:#12140f; --panel:#1a1d17; --ink:#e8ebe4; --muted:#9aa394; --faint:#6f776b;
     --line:#2a2e26; --accent:#4ac26b; --accent-soft:#1c2b1f;
     --seed:#9db98a; --seed-bg:#1e2618;
+    --sprout:#7fc496; --sprout-bg:#17281d;
     --grown:#4ac26b; --grown-bg:#162a1c;
     --trans:#58a6ff; --trans-bg:#132132;
     --dormant:#b39c7d; --dormant-bg:#26211a;
@@ -29,6 +31,7 @@
   --bg:#12140f; --panel:#1a1d17; --ink:#e8ebe4; --muted:#9aa394; --faint:#6f776b;
   --line:#2a2e26; --accent:#4ac26b; --accent-soft:#1c2b1f;
   --seed:#9db98a; --seed-bg:#1e2618;
+  --sprout:#7fc496; --sprout-bg:#17281d;
   --grown:#4ac26b; --grown-bg:#162a1c;
   --trans:#58a6ff; --trans-bg:#132132;
   --dormant:#b39c7d; --dormant-bg:#26211a;
@@ -88,6 +91,7 @@ h2 .n{font-family:var(--mono); font-size:12px; color:var(--faint); font-weight:4
   white-space:nowrap; flex-shrink:0
 }
 .b-seed{background:var(--seed-bg); color:var(--seed)}
+.b-sprout{background:var(--sprout-bg); color:var(--sprout)}
 .b-grown{background:var(--grown-bg); color:var(--grown)}
 .b-trans{background:var(--trans-bg); color:var(--trans)}
 .b-dormant{background:var(--dormant-bg); color:var(--dormant)}
@@ -123,13 +127,13 @@ footer code{font-family:var(--mono); font-size:11px; background:var(--accent-sof
     아이디어 하나 = 이슈 하나 = 태그 하나.
   </p>
   <div class="counts">
-    <div class="count"><b>8</b><span>전체 아이디어</span></div>
+    <div class="count"><b>9</b><span>전체 아이디어</span></div>
     <div class="count"><b>6</b><span>개발 진행 중</span></div>
-    <div class="count"><b>1</b><span>신규 아이디어</span></div>
+    <div class="count"><b>2</b><span>신규 아이디어</span></div>
     <div class="count"><b>1</b><span>재정의 필요</span></div>
     <div class="count"><b>0</b><span>덱 완성</span></div>
   </div>
-  <p class="meta">최종 갱신 2026-08-13 · <a href="https://github.com/songyoungoak/idea-garden">github.com/songyoungoak/idea-garden</a></p>
+  <p class="meta">최종 갱신 2026-08-16 · <a href="https://github.com/songyoungoak/idea-garden">github.com/songyoungoak/idea-garden</a></p>
 </header>
 
 <!-- ============ 개발 진행 중 ============ -->
@@ -216,10 +220,28 @@ footer code{font-family:var(--mono); font-size:11px; background:var(--accent-sof
 
 <!-- ============ 신규 / 재정의 ============ -->
 <section>
-  <h2>🌱 아이디어 단계 <span class="n">seed · 2</span></h2>
+  <h2>🌱 아이디어 단계 <span class="n">seed · sprout · 3</span></h2>
   <p class="sec-note">아직 이 리포지토리 안에 있는 아이디어. 배경과 목표가 확정되면 덱을 만들고 별도 리포지토리로 옮깁니다.</p>
 
   <div class="grid">
+
+    <div class="card">
+      <div class="card-top">
+        <span class="name">it-job-trend-crawler</span>
+        <span class="badge b-sprout">🌿 sprout</span>
+      </div>
+      <p class="desc">
+        일본 IT 구인 정보를 매일 조금씩 모아, <b>“어떤 업종의 회사가 왜 어떤 스킬의 엔지니어를 찾는가”</b>를
+        <b>스킬 단위로 검색</b>할 수 있는 다계층 문서로 축적. 공고는 사라지지만 시계열은 남는다.
+      </p>
+      <div class="tags">
+        <span class="tag">domain:data</span><span class="tag">domain:career</span><span class="tag">idea:it-job-trend-crawler</span><span class="tag">JP market</span>
+      </div>
+      <div class="row">
+        <span><a href="https://github.com/songyoungoak/idea-garden/issues/2">issue #2</a></span>
+        <span class="todo">덱 미작성</span>
+      </div>
+    </div>
 
     <div class="card">
       <div class="card-top">
@@ -260,6 +282,7 @@ footer code{font-family:var(--mono); font-size:11px; background:var(--accent-sof
 <!-- ============ legend ============ -->
 <div class="legend">
   <div><span class="badge b-seed">🌱 seed</span> 아이디어만 있음</div>
+  <div><span class="badge b-sprout">🌿 sprout</span> 배경·문제 정리됨</div>
   <div><span class="badge b-grown">🌳 grown</span> 목표·아키텍처 확정, 덱 완성</div>
   <div><span class="badge b-trans">🚚 transplanted</span> 별도 리포에서 개발 중</div>
   <div><span class="badge b-dormant">🍂 archived</span> 보류 · 재정의 필요</div>
