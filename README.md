@@ -16,6 +16,7 @@
 |---|---|---|---|---|
 | [`idea:ja-one-line-trainer`](https://github.com/songyoungoak/idea-garden/labels/idea%3Aja-one-line-trainer) | 일본어 상황 언어화 트레이너 — 3~5단어, 1층 문장으로 말하기 | 🌱 seed | [#1](https://github.com/songyoungoak/idea-garden/issues/1) | _미작성_ |
 | [`idea:it-job-trend-crawler`](https://github.com/songyoungoak/idea-garden/labels/idea%3Ait-job-trend-crawler) | IT 구인 트렌드 크롤러 — 스킬 단위로 검색되는 일본 IT 채용 수요 아카이브 | 🌿 sprout | [#2](https://github.com/songyoungoak/idea-garden/issues/2) | _미작성_ |
+| [`idea:manager-skill-check-trainer`](https://github.com/songyoungoak/idea-garden/labels/idea%3Amanager-skill-check-trainer) | 매니저 사고력 훈련 시뮬레이터 — 판단의 질을 일본어로 훈련 | 🌿 sprout | [#3](https://github.com/songyoungoak/idea-garden/issues/3) | _미작성_ |
 | `idea:ookubo-restaurant` | 오쿠보 식당 — 아이디어 재정의 필요 | 🌱 seed | _미등록_ | _미작성_ |
 
 [→ 전체 아이디어 이슈 보기](https://github.com/songyoungoak/idea-garden/issues?q=is%3Aissue+label%3Astage%3Aseed%2Cstage%3Asprout%2Cstage%3Agrown)
