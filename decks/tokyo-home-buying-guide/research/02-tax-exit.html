@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>세금 · 임대 vs 구입 · 출구 전략</title>
+<style>
+:root{
+  --bg:#f7f8f6; --panel:#ffffff; --ink:#1a1d1a; --muted:#636b63; --faint:#8b948b;
+  --line:#e2e6e0; --accent:#2da44e; --accent-soft:#e8f5ec;
+  --warn:#b45309; --warn-bg:#fdf3e3; --warn-line:#e8d5b0;
+  --crit:#b42318; --crit-bg:#fdf0ef; --crit-line:#f0cfcc;
+  --info:#0969da; --info-bg:#eef4fd;
+  --radius:10px;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#12140f; --panel:#1a1d17; --ink:#e8ebe4; --muted:#9aa394; --faint:#6f776b;
+    --line:#2a2e26; --accent:#4ac26b; --accent-soft:#1c2b1f;
+    --warn:#e0a760; --warn-bg:#2a2116; --warn-line:#463a26;
+    --crit:#f08a80; --crit-bg:#2a1917; --crit-line:#4a2c28;
+    --info:#58a6ff; --info-bg:#132132;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#12140f; --panel:#1a1d17; --ink:#e8ebe4; --muted:#9aa394; --faint:#6f776b;
+  --line:#2a2e26; --accent:#4ac26b; --accent-soft:#1c2b1f;
+  --warn:#e0a760; --warn-bg:#2a2116; --warn-line:#463a26;
+  --crit:#f08a80; --crit-bg:#2a1917; --crit-line:#4a2c28;
+  --info:#58a6ff; --info-bg:#132132;
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--bg); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans KR","Malgun Gothic",sans-serif;
+  line-height:1.68; -webkit-font-smoothing:antialiased}
+.wrap{max-width:920px; margin:0 auto; padding:48px 24px 90px}
+
+header{border-bottom:1px solid var(--line); padding-bottom:26px; margin-bottom:14px}
+.eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); margin:0 0 10px}
+h1{margin:0 0 10px; font-size:clamp(25px,4vw,34px); letter-spacing:-.02em; line-height:1.22}
+.sub{margin:0; color:var(--muted); font-size:15px; max-width:60ch}
+.meta{margin-top:16px; font-family:var(--mono); font-size:11.5px; color:var(--faint)}
+
+h2{font-size:19px; margin:52px 0 6px; letter-spacing:-.015em; padding-top:8px}
+h2 .ax{font-family:var(--mono); font-size:11px; color:var(--accent); display:block; margin-bottom:5px; letter-spacing:.06em}
+h3{font-size:14.5px; margin:26px 0 8px; letter-spacing:-.01em}
+p{margin:0 0 12px}
+ul{margin:0 0 12px; padding-left:19px}
+li{margin-bottom:5px}
+strong{font-weight:640}
+
+.lede{font-size:14.5px; color:var(--muted); margin-bottom:18px}
+
+table{width:100%; border-collapse:collapse; margin:14px 0 16px; font-size:13.2px}
+th,td{text-align:left; padding:9px 11px; border-bottom:1px solid var(--line); vertical-align:top}
+th{font-weight:620; color:var(--muted); font-size:11.5px; letter-spacing:.03em; text-transform:uppercase; white-space:nowrap}
+td.num{font-family:var(--mono); white-space:nowrap}
+.tbl-scroll{overflow-x:auto; -webkit-overflow-scrolling:touch}
+
+.box{border-radius:var(--radius); padding:15px 17px; margin:16px 0; font-size:13.5px; border:1px solid}
+.box p:last-child{margin-bottom:0}
+.box .t{font-weight:660; display:block; margin-bottom:5px; font-size:13px}
+.b-crit{background:var(--crit-bg); border-color:var(--crit-line); color:var(--ink)}
+.b-crit .t{color:var(--crit)}
+.b-warn{background:var(--warn-bg); border-color:var(--warn-line); color:var(--ink)}
+.b-warn .t{color:var(--warn)}
+.b-info{background:var(--info-bg); border-color:transparent; color:var(--ink)}
+.b-info .t{color:var(--info)}
+
+.flow{display:flex; flex-wrap:wrap; gap:7px; align-items:center; margin:14px 0 18px; font-family:var(--mono); font-size:11.5px}
+.flow span{background:var(--panel); border:1px solid var(--line); border-radius:6px; padding:6px 10px; white-space:nowrap}
+.flow i{color:var(--faint); font-style:normal}
+
+.axes{display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:11px; margin:20px 0 8px}
+.ax-card{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:14px 15px}
+.ax-card b{font-size:13px; display:block; margin-bottom:4px}
+.ax-card span{font-size:12.3px; color:var(--muted); line-height:1.55; display:block}
+.ax-card em{font-style:normal; font-family:var(--mono); font-size:10.5px; color:var(--accent); display:block; margin-bottom:6px; letter-spacing:.05em}
+
+.q{border-left:3px solid var(--accent); padding:2px 0 2px 15px; margin:14px 0 18px}
+.q b{display:block; font-size:13.5px; margin-bottom:3px}
+.q span{font-size:13px; color:var(--muted)}
+
+a{color:var(--accent); text-decoration:none}
+a:hover{text-decoration:underline}
+code{font-family:var(--mono); font-size:12px; background:var(--accent-soft); padding:1.5px 5px; border-radius:4px; color:var(--accent)}
+footer{margin-top:60px; padding-top:22px; border-top:1px solid var(--line); font-size:12px; color:var(--faint); line-height:1.85}
+footer ol{padding-left:18px; margin:8px 0 0}
+footer li{margin-bottom:3px}
+@media (max-width:600px){ .wrap{padding:32px 16px 60px} }
+</style></head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="eyebrow">tokyo-home-buying-guide / research 03</p>
+  <h1>사고 난 뒤의 돈 — 세금 · 빌릴 것인가 살 것인가 · 나가는 법</h1>
+  <p class="sub">
+    물건가와 대출만 보면 놓치는 것들. <strong>취득세·보유세</strong>,
+    <strong>임대와의 손익분기</strong>, <strong>재해 리스크</strong>,
+    그리고 <strong>전근·귀국할 때 이 집을 어떻게 할 것인가</strong>.
+  </p>
+  <p class="meta">1차 조사 2026-08-22 · <a href="00-landscape.html">← 01 랜드스케이프</a> · <a href="01-auction.html">02 법원 경매</a> · <a href="index.html">문서 목록</a></p>
+</header>
+
+<div class="box b-warn">
+  <span class="t">이 문서의 성격</span>
+  <p>공개 자료 기준 정리이며 세무 자문이 아닙니다. <strong>세제는 시한조치가 많아 연도 단위로 바뀝니다.</strong>
+  아래 수치는 조사 시점에 확인된 것이며, 실제 적용 시에는 관할 도도부현 세무사무소·세무서에 확인해야 합니다.</p>
+</div>
+
+<h2><span class="ax">TAX A</span>취득할 때 내는 세금</h2>
+
+<h3>不動産取得税 (부동산취득세)</h3>
+<p>중고 주택에도 경감조치가 있다. 다만 <strong>공제액이 그 주택이 지어진 해(築年次)에 따라 달라진다.</strong></p>
+
+<div class="box b-info">
+  <span class="t">1982년 이전 물건도 길이 있다</span>
+  <p>築年月이 <strong>1982년 1월 1일 이전</strong>이더라도 다음 중 하나면 築年月에 따른 액수를 고정자산세 평가액에서 공제받을 수 있다.</p>
+  <ul style="margin-top:8px">
+    <li>전문가 조사로 <strong>내진 기준에 적합</strong>하다고 판단된 물건</li>
+    <li><strong>취득 후 6개월 이내에 내진 개수 공사</strong>를 하여 내진 기준 적합이 증명된 경우</li>
+  </ul>
+  <p>즉 구내진 물건이라도 <strong>내진 적합 증명이 세제상의 분기점</strong>이 된다.
+  이것은 <a href="00-landscape.html">랜드스케이프 축 5</a>의 1981년 6월 1일 기준과 함께 봐야 한다 —
+  <strong>내진은 안전 문제이면서 동시에 세금 문제다.</strong></p>
+</div>
+
+<h3>登録免許税 (등록면허세)</h3>
+<ul>
+  <li>토지 및 맨션 취득 — <strong>2026년 3월 31일까지의 취득</strong>에 대해 시한조치로 고정자산 평가액의 <strong>15/1000</strong>로 산출</li>
+  <li>경감조치 대상이 된 경우의 저당권 설정분 — <strong>차입금액의 0.1%</strong></li>
+</ul>
+
+<div class="box b-crit">
+  <span class="t">기한 확인 필요 — 이미 지난 날짜다</span>
+  <p>조사에서 확인된 시한조치의 기한이 <strong>2026년 3월 31일</strong>인데, 오늘은 <strong>2026년 8월 22일</strong>이다.
+  즉 이 경감조치는 <strong>이미 만료되었거나, 연장되었거나, 내용이 바뀌었다.</strong></p>
+  <p>참조한 자료가 기한 갱신을 반영하지 않았을 가능성이 크다.
+  <strong>등록면허세율은 반드시 국세청·법무국의 현행 고시로 다시 확인할 것.</strong> 이 문서의 수치를 그대로 쓰면 안 된다.</p>
+</div>
+
+<h2><span class="ax">TAX B</span>보유하는 동안 내는 세금</h2>
+<p><strong>固定資産税</strong>가 매년 부과된다. 대출 상환액만 계산하고 이것을 빼먹으면 월 부담이 어긋난다.
+관리비·수선적립금과 함께 <strong>「매달 나가는 고정비」로 묶어서 계산</strong>해야 한다.</p>
+
+<div class="box b-info">
+  <span class="t">계산기 콘텐츠 설계 메모</span>
+  <p>실제 월 부담 = <strong>대출 상환액 + 관리비 + 수선적립금 + 고정자산세(월할) + 화재보험(월할)</strong>.
+  임대료와 비교할 때 대출 상환액만 놓고 「임대료보다 싸다」고 하는 것이 가장 흔한 착각이다.
+  앱에서는 이 전액을 한 줄로 보여줘야 한다.</p>
+</div>
+
+<h2><span class="ax">RENT vs BUY</span>손익분기는 20~25년으로 늘어났다</h2>
+
+<div class="tbl-scroll">
+<table>
+  <thead><tr><th>구분</th><th>내용</th></tr></thead>
+  <tbody>
+    <tr><td><strong>현재 손익분기</strong></td><td class="num">약 <strong>20~25년</strong> (2026년 4월 시점)</td></tr>
+    <tr><td>이전 수준</td><td class="num">18~20년</td></tr>
+    <tr><td>늘어난 이유</td><td><strong>금리 상승 + 공급 감소</strong>. 신축 맨션 가격이 과거 10년 피크 근방, 중고도 고착</td></tr>
+    <tr><td>15년 이하 거주</td><td><strong>임대가 유리</strong></td></tr>
+    <tr><td>20년 이상 거주</td><td><strong>구입이 유리</strong></td></tr>
+    <tr><td>30~40년 스팬</td><td>대출 상환이 자산 형성으로 이어져 구입이 유리한 경우가 많다</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p>예시로는 월세 10만 엔·30년 거주 시 구입이 약 <strong>1,080만 엔 싸다</strong>는 계산이 제시된다.</p>
+
+<div class="box b-warn">
+  <span class="t">이 숫자가 개인에게 그대로 적용되지 않는 이유</span>
+  <p>손익분기 20~25년은 <strong>「그 집에 그만큼 산다」는 전제</strong>에서만 성립한다.
+  전근·귀국·이직으로 15년 안에 나갈 가능성이 있다면 계산의 전제가 무너진다.
+  아래 EXIT 절과 반드시 붙여서 판단해야 한다.</p>
+  <p>또한 <strong>같은 23구 안에서도 임대가 유리한 구역과 구입이 유리한 구역이 갈린다.</strong>
+  구역별 이율이 다르기 때문이다. 「도쿄는 사는 게 이득」 같은 단일 결론은 성립하지 않는다.</p>
+</div>
+
+<div class="q">
+  <b>앱에서 이걸 어떻게 다룰 것인가</b>
+  <span>「몇 년 살 예정인가」를 입력받아 손익분기와 대조해 보여주는 것이 가장 정직한 형태다.
+  정답을 주는 게 아니라 <strong>전제를 드러내는</strong> 계산기.</span>
+</div>
+
+<h2><span class="ax">AREA</span>재해 리스크 — 중요사항설명 의무 항목이다</h2>
+
+<div class="box b-info">
+  <span class="t">2020년 8월부터 설명이 의무화됐다</span>
+  <p>부동산 구입 전 <strong>중요사항설명에서 水害 해저드맵 설명이 의무</strong>다.
+  즉 이건 「알아서 챙길 것」이 아니라 <strong>업자가 반드시 설명해야 하는 항목</strong>이고,
+  설명을 안 하면 그 자체가 문제다. 계약 전 반드시 짚을 것.</p>
+</div>
+
+<h3>23구의 지형 — 台地와 低地</h3>
+<ul>
+  <li>23구는 <strong>台地(고지대)와 低地(저지대)</strong>로 나뉘고, 해저드맵상 <strong>침수·해일 피해는 低地에 집중</strong></li>
+  <li>다만 도쿄는 <strong>치수 사업이 진척</strong>되어 전국적으로 보면 홍수 범람이 적은 편</li>
+  <li><strong>土砂災害警戒区域</strong>은 23구에 거의 없다 — 어느 구든 토사재해 리스크는 낮다</li>
+</ul>
+
+<h3>액상화 — 동서로 갈린다</h3>
+<p>23구 <strong>서쪽은 리스크가 낮고 동쪽은 높은</strong> 경향. 만안 지역과 큰 강에서 멀어질수록 낮아진다.</p>
+<div class="box b-info">
+  <span class="t">액상화 리스크가 낮은 것으로 제시되는 구</span>
+  <p>네리마 · 도시마 · 분쿄 · 스기나미 · 나카노 · 신주쿠 · 지요다 · 세타가야 · 시부야 · 메구로</p>
+  <p style="margin-top:8px">단 <strong>구 단위는 어디까지나 경향</strong>이다. 같은 구 안에서도 지반은 크게 다르므로
+  최종 판단은 <strong>물건 소재지의 해저드맵</strong>으로 해야 한다.</p>
+</div>
+
+<h2><span class="ax">EXIT</span>나가는 법 — 전근·귀국 시 이 집을 어떻게 하나</h2>
+
+<div class="box b-crit">
+  <span class="t">무단으로 세를 놓으면 계약 위반이다</span>
+  <p>주택대출 상환 중에 <strong>금융기관에 무단으로 임대</strong>하는 것은 계약 위반이며,
+  <strong>대출 일괄 상환을 요구받을 가능성</strong>이 있다.</p>
+  <p>주택대출은 「본인이 거주하는 주택」을 전제로 금리가 낮게 설정된 상품이다.
+  임대로 돌리는 순간 그 전제가 깨진다. <strong>이건 흔한 실수가 아니라 계약의 근간 문제다.</strong></p>
+</div>
+
+<h3>올바른 절차 — 리로케이션</h3>
+<ul>
+  <li>전근 기간 중의 임대를 <strong>「リロケーション(리로케이션)」</strong>이라 부른다. 임대인이 멀리 있으므로 <strong>귀임 후 재입주를 전제로 한</strong> 전문적인 관리가 필요</li>
+  <li><strong>귀임 후 그 집에 재입주하는 조건</strong>이라면 전근 기간 중 임대해도 주택대출을 계속할 수 있는 경우가 많다</li>
+  <li>다만 계약 내용에 따라 다르므로 <strong>원칙적으로 금융기관에 확인하고 승낙을 얻는 것이 필요</strong></li>
+</ul>
+
+<h3>계약 형태의 선택</h3>
+<div class="tbl-scroll">
+<table>
+  <thead><tr><th>계약 형태</th><th>특징</th><th>적합한 상황</th></tr></thead>
+  <tbody>
+    <tr><td><strong>定期借家契約</strong><br>정기차가계약</td><td>미리 임대 기간을 정하고 <strong>기간 만료 시 계약을 종료</strong>시킬 수 있다</td><td>귀임 시기가 정해진 국내 전근</td></tr>
+    <tr><td><strong>一時使用賃貸借契約</strong><br>일시사용임대차계약</td><td><strong>해약 예고가 3개월 전</strong>이면 된다</td><td><strong>귀국 시기가 정해지지 않은 해외 부임</strong></td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="box b-warn">
+  <span class="t">외국인에게 이 축이 특히 무거운 이유</span>
+  <p>귀국 가능성이 열려 있다면 <strong>「20~25년 살 것」이라는 손익분기 전제가 성립하지 않을 수 있다.</strong>
+  그리고 나갈 때 선택지가 <strong>매각</strong>과 <strong>임대</strong>뿐인데, 임대는 위와 같이 금융기관 승낙이 걸린다.</p>
+  <p>즉 <strong>사기 전에 나가는 법을 먼저 확인해 두어야 하는 케이스</strong>다.
+  대출 계약서의 거주 요건 조항을 계약 전에 읽는 것이 순서다.</p>
+</div>
+
+<h2><span class="ax">NEXT</span>다음 조사</h2>
+<ul>
+  <li><strong>등록면허세 현행 세율</strong> — 위에서 지적한 기한 만료 건. <strong>최우선</strong></li>
+  <li><strong>불동산취득세 공제액의 築年次별 실제 금액표</strong> — 도쿄도 기준</li>
+  <li><strong>고정자산세 계산 방법과 경감 특례</strong> — 신축·중고, 소규모 주택용지 특례</li>
+  <li><strong>구역별 이율 데이터</strong> — 23구 중 어디가 임대 유리 / 구입 유리인가의 실제 숫자</li>
+  <li><strong>매각 시 세금</strong> — 양도소득세, 3,000만 엔 특별공제 요건, 비거주자가 되었을 때의 취급</li>
+  <li><strong>증여세 비과세 특례</strong> — 주택 취득 자금 지원을 받는 경우의 요건과 한도</li>
+  <li><strong>비거주자의 부동산 보유</strong> — 귀국 후에도 계속 보유할 때의 납세관리인 선임 의무 등</li>
+</ul>
+
+<footer>
+  <p><strong>출처</strong> (2026-08-22 조사)</p>
+  <ol>
+    <li><a href="https://fudosan-zei.blog/pages/blog-fudosan-shutokuzei-keigen-sochi-2026">不動産取得税の軽減措置 — 新築・中古・土地・マンションの条件【2026年版】</a></li>
+    <li><a href="https://journal.zerorenovation.co.jp/apartment/real-estate-acquisition-tax-for-used-condominiums/">中古マンションの不動産取得税 — 0円になる条件・軽減措置 (ゼロリノベ)</a></li>
+    <li><a href="https://journal.zerorenovation.co.jp/apartment/condominium-tax/">マンション購入で払う税金4つ — 固定資産税等の計算と軽減措置 (ゼロリノベ)</a></li>
+    <li><a href="https://yasukusumu.jp/guide/chintai-vs-kounyuu">賃貸vs購入の損益分岐点【2026年】東京で20年30年住むと実質いくら差？</a></li>
+    <li><a href="https://www.homes.co.jp/cont/living/living_00754/">2026年、賃貸 vs 持ち家どっちが得？ (LIFULL HOME'S)</a></li>
+    <li><a href="https://rent-or-buy.jp/articles/tokyo-area-rent-vs-buy-2026">賃貸 vs 購入 — 家賃相場×物件価格マップ (エリア別)</a></li>
+    <li><a href="https://kuramore.jp/media/hazardmap-tokyo23wards">東京23区のハザードマップ — 不動産購入前の5つの注意点 (クラモア)</a></li>
+    <li><a href="https://mansionmarket-lab.com/tokyo-hazard-map">東京23区ハザードマップまとめ（地震危険度・液状化・倒壊） — マンションくらし研究所</a></li>
+    <li><a href="https://www.tenrusu.jp/column/news105/">転勤時に持ち家を賃貸する方法・注意点 — リロの留守宅管理</a></li>
+    <li><a href="https://mogecheck.jp/articles/show/pzwr9bj0EZQN4aD7vmGR">住宅ローン返済中の物件を賃貸へ出すのはNG？ — モゲチェック</a></li>
+  </ol>
+</footer>
+
+</div>
+</body>
+</html>

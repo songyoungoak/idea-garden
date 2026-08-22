@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>도쿄 집 마련 리서치</title>
+<style>
+:root{
+  --bg:#f7f8f6; --panel:#ffffff; --ink:#1a1d1a; --muted:#636b63; --faint:#8b948b;
+  --line:#e2e6e0; --accent:#2da44e; --accent-soft:#e8f5ec;
+  --warn:#b45309; --warn-bg:#fdf3e3; --warn-line:#e8d5b0;
+  --crit:#b42318; --crit-bg:#fdf0ef; --crit-line:#f0cfcc;
+  --info:#0969da; --info-bg:#eef4fd;
+  --radius:10px;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#12140f; --panel:#1a1d17; --ink:#e8ebe4; --muted:#9aa394; --faint:#6f776b;
+    --line:#2a2e26; --accent:#4ac26b; --accent-soft:#1c2b1f;
+    --warn:#e0a760; --warn-bg:#2a2116; --warn-line:#463a26;
+    --crit:#f08a80; --crit-bg:#2a1917; --crit-line:#4a2c28;
+    --info:#58a6ff; --info-bg:#132132;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#12140f; --panel:#1a1d17; --ink:#e8ebe4; --muted:#9aa394; --faint:#6f776b;
+  --line:#2a2e26; --accent:#4ac26b; --accent-soft:#1c2b1f;
+  --warn:#e0a760; --warn-bg:#2a2116; --warn-line:#463a26;
+  --crit:#f08a80; --crit-bg:#2a1917; --crit-line:#4a2c28;
+  --info:#58a6ff; --info-bg:#132132;
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--bg); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans KR","Malgun Gothic",sans-serif;
+  line-height:1.68; -webkit-font-smoothing:antialiased}
+.wrap{max-width:920px; margin:0 auto; padding:48px 24px 90px}
+
+header{border-bottom:1px solid var(--line); padding-bottom:26px; margin-bottom:14px}
+.eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); margin:0 0 10px}
+h1{margin:0 0 10px; font-size:clamp(25px,4vw,34px); letter-spacing:-.02em; line-height:1.22}
+.sub{margin:0; color:var(--muted); font-size:15px; max-width:60ch}
+.meta{margin-top:16px; font-family:var(--mono); font-size:11.5px; color:var(--faint)}
+
+h2{font-size:19px; margin:52px 0 6px; letter-spacing:-.015em; padding-top:8px}
+h2 .ax{font-family:var(--mono); font-size:11px; color:var(--accent); display:block; margin-bottom:5px; letter-spacing:.06em}
+h3{font-size:14.5px; margin:26px 0 8px; letter-spacing:-.01em}
+p{margin:0 0 12px}
+ul{margin:0 0 12px; padding-left:19px}
+li{margin-bottom:5px}
+strong{font-weight:640}
+
+.lede{font-size:14.5px; color:var(--muted); margin-bottom:18px}
+
+table{width:100%; border-collapse:collapse; margin:14px 0 16px; font-size:13.2px}
+th,td{text-align:left; padding:9px 11px; border-bottom:1px solid var(--line); vertical-align:top}
+th{font-weight:620; color:var(--muted); font-size:11.5px; letter-spacing:.03em; text-transform:uppercase; white-space:nowrap}
+td.num{font-family:var(--mono); white-space:nowrap}
+.tbl-scroll{overflow-x:auto; -webkit-overflow-scrolling:touch}
+
+.box{border-radius:var(--radius); padding:15px 17px; margin:16px 0; font-size:13.5px; border:1px solid}
+.box p:last-child{margin-bottom:0}
+.box .t{font-weight:660; display:block; margin-bottom:5px; font-size:13px}
+.b-crit{background:var(--crit-bg); border-color:var(--crit-line); color:var(--ink)}
+.b-crit .t{color:var(--crit)}
+.b-warn{background:var(--warn-bg); border-color:var(--warn-line); color:var(--ink)}
+.b-warn .t{color:var(--warn)}
+.b-info{background:var(--info-bg); border-color:transparent; color:var(--ink)}
+.b-info .t{color:var(--info)}
+
+.flow{display:flex; flex-wrap:wrap; gap:7px; align-items:center; margin:14px 0 18px; font-family:var(--mono); font-size:11.5px}
+.flow span{background:var(--panel); border:1px solid var(--line); border-radius:6px; padding:6px 10px; white-space:nowrap}
+.flow i{color:var(--faint); font-style:normal}
+
+.axes{display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:11px; margin:20px 0 8px}
+.ax-card{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:14px 15px}
+.ax-card b{font-size:13px; display:block; margin-bottom:4px}
+.ax-card span{font-size:12.3px; color:var(--muted); line-height:1.55; display:block}
+.ax-card em{font-style:normal; font-family:var(--mono); font-size:10.5px; color:var(--accent); display:block; margin-bottom:6px; letter-spacing:.05em}
+
+.q{border-left:3px solid var(--accent); padding:2px 0 2px 15px; margin:14px 0 18px}
+.q b{display:block; font-size:13.5px; margin-bottom:3px}
+.q span{font-size:13px; color:var(--muted)}
+
+a{color:var(--accent); text-decoration:none}
+a:hover{text-decoration:underline}
+code{font-family:var(--mono); font-size:12px; background:var(--accent-soft); padding:1.5px 5px; border-radius:4px; color:var(--accent)}
+footer{margin-top:60px; padding-top:22px; border-top:1px solid var(--line); font-size:12px; color:var(--faint); line-height:1.85}
+footer ol{padding-left:18px; margin:8px 0 0}
+footer li{margin-bottom:3px}
+@media (max-width:600px){ .wrap{padding:32px 16px 60px} }
+</style></head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="eyebrow">tokyo-home-buying-guide</p>
+  <h1>도쿄에서 집 마련하기 — 리서치</h1>
+  <p class="sub">
+    「살 수 있는가」를 축으로 분해하고, 각 축에서 <strong>확인된 사실</strong>과
+    <strong>아직 확인하지 못한 것</strong>을 구분해 쌓아 간다. 앱은 이 조사가 굳은 뒤 별도 리포지토리에서.
+  </p>
+  <p class="meta">1차 조사 2026-08-22 · 문서 3건</p>
+</header>
+
+<div class="axes" style="margin-top:28px">
+  <a class="ax-card" href="00-landscape.html" style="text-decoration:none; color:inherit">
+    <em>RESEARCH 01</em>
+    <b>랜드스케이프 — 6개 축</b>
+    <span>대출 자격 · 금리 · 시세 · 총비용 · 물건 리스크 · 프로세스. 앞 축이 막히면 뒤 축은 의미가 없다.</span>
+  </a>
+  <a class="ax-card" href="01-auction.html" style="text-decoration:none; color:inherit">
+    <em>RESEARCH 02</em>
+    <b>법원 경매로 사는 법</b>
+    <span>도쿄지재 期間入札 절차, 3점세트, 점유자·체납관리비, 담보책임 배제, 대출을 쓰기 위한 82조 2항.</span>
+  </a>
+  <a class="ax-card" href="02-tax-exit.html" style="text-decoration:none; color:inherit">
+    <em>RESEARCH 03</em>
+    <b>세금 · 임대 vs 구입 · 출구</b>
+    <span>취득세·등록면허세·고정자산세, 손익분기 20~25년, 해저드맵, 전근·귀국 시 임대의 계약 문제.</span>
+  </a>
+</div>
+
+<h2><span class="ax">SUMMARY</span>지금까지 확인된 핵심</h2>
+<ul>
+  <li><strong>영주권 유무는 「가능/불가」가 아니라 「은행 목록」을 바꾼다.</strong> 조건에 걸지 않는 은행, 배우자 연대보증 경로, 재류카드 보유자 대상 상품이 각각 존재한다</li>
+  <li><strong>금리는 상승 국면.</strong> 2026-06 일본은행 인상분이 <strong>2026년 10월</strong>에 가장 크게 반영될 전망</li>
+  <li><strong>23구는 이미 1억 엔 시장.</strong> 신축 평균 1억 엔 초과, 중고 70㎡ 환산 약 9,527만 엔</li>
+  <li><strong>필요 현금 = 頭金 + 諸費用.</strong> 중고는 諸費用만 물건가의 6~9%</li>
+  <li><strong>경매는 입찰 자격에 국적 제한이 없다.</strong> 병목은 입찰이 아니라 <strong>1개월 내 대금 납부</strong>라는 자금 조달 스케줄</li>
+  <li><strong>경매는 품질 하자에 책임을 물을 수 없다</strong> (민법 568조 4항). 대신 권리 하자는 보호된다</li>
+  <li><strong>맨션 경매는 체납 관리비를 승계</strong>한다. 낙찰가와 별도로 나가는 돈</li>
+  <li><strong>임대 vs 구입 손익분기는 20~25년</strong>으로 늘어났다. 15년 안에 나갈 가능성이 있으면 전제가 무너진다</li>
+  <li><strong>무단 임대는 계약 위반</strong> — 일괄 상환 요구 가능성. 귀국 가능성이 있다면 사기 전에 확인할 것</li>
+</ul>
+
+<h2><span class="ax">OPEN</span>가장 큰 미확인 항목</h2>
+<div class="box b-crit">
+  <span class="t">1. 등록면허세 현행 세율</span>
+  <p>참조 자료의 시한조치 기한이 <strong>2026년 3월 31일</strong>인데 이미 지났다. 만료·연장·변경 여부를 현행 고시로 확인해야 한다.</p>
+</div>
+<div class="box b-warn">
+  <span class="t">2. 23구 시세 원본 통계</span>
+  <p>중고 평균가에 <strong>1억 6,766만 엔</strong>과 <strong>9,527만 엔(70㎡ 환산)</strong>이 병존한다. REINS 등 원자료로 재구축 필요.</p>
+</div>
+<div class="box b-info">
+  <span class="t">3. 개인 상황에 의존하는 축</span>
+  <p>재류자격 · 예정 거주 연수 · 예산 규모가 정해져야 은행별 실제 요건과 구역 후보를 좁힐 수 있다.</p>
+</div>
+
+<footer>
+  <p>이 리서치는 <a href="https://github.com/songyoungoak/idea-garden">idea-garden</a>에서 관리됩니다.
+  실제 애플리케이션은 조사가 굳은 뒤 별도 리포지토리에서 진행합니다.</p>
+  <p>공개 자료를 정리한 문서이며 금융·세무·법률 자문이 아닙니다. 금리와 세제는 분기 단위로 바뀝니다.</p>
+</footer>
+
+</div>
+</body>
+</html>
