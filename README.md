@@ -18,6 +18,7 @@
 | [`idea:it-job-trend-crawler`](https://github.com/songyoungoak/idea-garden/labels/idea%3Ait-job-trend-crawler) | IT 구인 트렌드 크롤러 — 스킬 단위로 검색되는 일본 IT 채용 수요 아카이브 | 🌿 sprout | [#2](https://github.com/songyoungoak/idea-garden/issues/2) | _미작성_ |
 | [`idea:manager-skill-check-trainer`](https://github.com/songyoungoak/idea-garden/labels/idea%3Amanager-skill-check-trainer) | 매니저 사고력 훈련 시뮬레이터 — 판단의 질을 일본어로 훈련 | 🌿 sprout | [#3](https://github.com/songyoungoak/idea-garden/issues/3) | _미작성_ |
 | [`idea:jp-aptitude-trainer`](https://github.com/songyoungoak/idea-garden/labels/idea%3Ajp-aptitude-trainer) | 일본 적성검사 연습 앱 — 본번과 같은 조건으로, 선택지별 근거까지 | 🌿 sprout | [#4](https://github.com/songyoungoak/idea-garden/issues/4) | _미작성_ |
+| [`idea:jp-authority-speech`](https://github.com/songyoungoak/idea-garden/labels/idea%3Ajp-authority-speech) | 시니어답게 말하기 훈련 — 날것의 생각을 권위 있는 일본어 문장으로 | 🌱 seed | [#5](https://github.com/songyoungoak/idea-garden/issues/5) | _미작성_ |
 | `idea:tokyo-home-buying-guide` | 도쿄 집 마련 가이드 — 리서치 진행 중 | 🌿 sprout | _미등록_ | [research](decks/tokyo-home-buying-guide/research/index.html) |
 | `idea:ookubo-restaurant` | 오쿠보 식당 — 아이디어 재정의 필요 | 🌱 seed | _미등록_ | _미작성_ |
 
